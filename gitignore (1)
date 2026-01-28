@@ -1,0 +1,6 @@
+Registro/.vs
+bin
+obj
+*.user
+Registro/.vscode
+Registro/packages
