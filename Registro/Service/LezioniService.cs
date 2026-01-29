@@ -28,23 +28,6 @@ namespace Registro
                     return lezioni;
                 }
             }
-        public async Task<List<LezioniStudentiviewModel>> GetStudentsByLezioni(int lezioneId)
-        {
-            using (var db = new RegistroEntities2())
-            {
-                return await db.LezioniStudenti
-                    .Select(l => new LezioniStudentiviewModel()
-                    {
-                        LezioneId = l.LezioneId,
-                        Studente = l.Studenti,
-                        Data = l.Lezione.DataLezione,
-                        Presente = l.Presente,
-                    })
-                    .Where(l => l.LezioneId == lezioneId)
-                    .ToListAsync();
-            }
-       
-        }
     }
     
 }

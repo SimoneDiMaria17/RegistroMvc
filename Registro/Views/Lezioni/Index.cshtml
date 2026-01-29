@@ -5,12 +5,14 @@
         <div class="col-12 d-grid" style="column-gap:2vw; row-gap: 2vw; grid-template-columns: auto auto auto auto;">
             @for(int i = 0; i < Model.Count; i++)
             {
-            <button class="col-10 card d-flex align-items-center justify-content-center p-2 ">
-                <p>lezione n.@i</p>
-                <p> @Model[i].DataLezione</p>
-            </button>
+                @Html.ActionLink(
+                    $"lezione n.{i} {Model[i].DataLezione}",
+                    "Index",
+                    "Student",
+                    new { area = "", id = Model[i].LezioneId }, 
+                    new { @class = "col-10 card d-flex align-items-center justify-content-center p-2 text-decoration-none" }
+                )
             }
-
         </div>
     }
 </container>
