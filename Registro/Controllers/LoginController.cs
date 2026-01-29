@@ -1,37 +1,24 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
 using Registro.Models;
 
 namespace Registro.Controllers
 {
-    public class HomeController : Controller
+    public class LoginController : Controller
     {
         private readonly UserService _userService;
-        public HomeController()
+        public LoginController()
         {
             _userService = new UserService();
-        }
-        
-        [HttpPost]
-        [Authorize]
-        public ActionResult Logout()
-        {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Lezioni");
         }
         
         [HttpGet]
         public ActionResult Index()
         {
-            
             return View();
         }
+        
         //login
         [HttpPost]
         public async Task<ActionResult> Index(UserLoginModel user)
@@ -42,12 +29,20 @@ namespace Registro.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(user.Username, false);
 
-                    return RedirectToAction("Index", "Student");
+                    return RedirectToAction("Index", "Lezioni");
                 }
                 ModelState.AddModelError("Password", "Credenziali non valide");
             }
 
             return View(user);
+        }
+        
+        [HttpPost]
+        [Authorize]
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Login");
         }
     }
 }
