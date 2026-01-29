@@ -1,0 +1,23 @@
+﻿@model List<Registro.Models.Student.StudentViewModel>
+<div>
+   <table class="table">
+      <thead>
+      <th></th>
+      <th></th>
+      <th >Id</th>
+      <th >nome</th>
+      </thead>
+      <tbody>
+      
+         @for (int i = 0; i < Model.Count; i++)
+         {
+            <tr>
+               <td><button  class="btn btn-outline-primary">gay</button></td>
+               <td><button class="btn btn-outline-primary">gay</button></td>
+               <td>@Model[i].StudentiID</td>
+               <td>@Model[i].Nome</td>
+            </tr>
+         }
+      </tbody>
+   </table>
+</div>

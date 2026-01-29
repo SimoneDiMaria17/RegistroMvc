@@ -78,3 +78,22 @@ per verificare che sia loggato nel cshtml
 }
 
 mentre nel controller basta mettere [authorize]
+
+
+
+
+List<LezioniStudenti> lezionistudenti =
+                        await db.LezioniStudenti.Where(l => l.Lezione.UserId == userId).ToListAsync();
+
+                    if (lezionistudenti.Count > 0)
+                    {
+                        foreach (var lez in lezionistudenti)
+                        {
+                            lezioni.Add(new LezioniviewModel()
+                            {
+                                LezioneId = lez.LezioneId,
+                                Lezione = lez.Lezione,
+                                Studente = lez.Studenti,
+                                Presente = lez.Presente
+                            });
+                        }

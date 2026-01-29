@@ -4,7 +4,32 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="RegistroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="RegistroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Lezione">
+          <Key>
+            <PropertyRef Name="LezioneId" />
+          </Key>
+          <Property Name="LezioneId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="DataLezione" Type="datetime2" Precision="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LezioniStudenti">
+          <Key>
+            <PropertyRef Name="LezioniStudentiId" />
+          </Key>
+          <Property Name="LezioniStudentiId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LezioneId" Type="int" Nullable="false" />
+          <Property Name="StudenteId" Type="int" Nullable="false" />
+          <Property Name="Presente" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Studenti">
+          <Key>
+            <PropertyRef Name="StudentiID" />
+          </Key>
+          <Property Name="StudentiID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataCreazione" Type="datetime2" Precision="3" Nullable="false" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserId" />
@@ -14,11 +39,61 @@
           <Property Name="Password" Type="varchar" MaxLength="32" Nullable="false" />
           <Property Name="DataCreazione" Type="datetime2" Precision="3" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Lezione__UserId__5165187F">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Lezione" Type="Self.Lezione" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Lezione">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LezioniSt__Lezio__5441852A">
+          <End Role="Lezione" Type="Self.Lezione" Multiplicity="1" />
+          <End Role="LezioniStudenti" Type="Self.LezioniStudenti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lezione">
+              <PropertyRef Name="LezioneId" />
+            </Principal>
+            <Dependent Role="LezioniStudenti">
+              <PropertyRef Name="LezioneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LezioniSt__Stude__5535A963">
+          <End Role="Studenti" Type="Self.Studenti" Multiplicity="1" />
+          <End Role="LezioniStudenti" Type="Self.LezioniStudenti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Studenti">
+              <PropertyRef Name="StudentiID" />
+            </Principal>
+            <Dependent Role="LezioniStudenti">
+              <PropertyRef Name="StudenteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="RegistroModelStoreContainer">
+          <EntitySet Name="Lezione" EntityType="Self.Lezione" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LezioniStudenti" EntityType="Self.LezioniStudenti" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Studenti" EntityType="Self.Studenti" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Lezione__UserId__5165187F" Association="Self.FK__Lezione__UserId__5165187F">
+            <End Role="User" EntitySet="User" />
+            <End Role="Lezione" EntitySet="Lezione" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LezioniSt__Lezio__5441852A" Association="Self.FK__LezioniSt__Lezio__5441852A">
+            <End Role="Lezione" EntitySet="Lezione" />
+            <End Role="LezioniStudenti" EntitySet="LezioniStudenti" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LezioniSt__Stude__5535A963" Association="Self.FK__LezioniSt__Stude__5535A963">
+            <End Role="Studenti" EntitySet="Studenti" />
+            <End Role="LezioniStudenti" EntitySet="LezioniStudenti" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RegistroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -30,10 +105,92 @@
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DataCreazione" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Lezione" Relationship="RegistroModel.FK__Lezione__UserId__5165187F" FromRole="User" ToRole="Lezione" />
         </EntityType>
         <EntityContainer Name="RegistroEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="Studenti" EntityType="RegistroModel.Studenti" />
+          <EntitySet Name="Lezione" EntityType="RegistroModel.Lezione" />
+          <EntitySet Name="LezioniStudenti" EntityType="RegistroModel.LezioniStudenti" />
+          <AssociationSet Name="FK__Lezione__UserId__5165187F" Association="RegistroModel.FK__Lezione__UserId__5165187F">
+            <End Role="User" EntitySet="User" />
+            <End Role="Lezione" EntitySet="Lezione" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LezioniSt__Lezio__5441852A" Association="RegistroModel.FK__LezioniSt__Lezio__5441852A">
+            <End Role="Lezione" EntitySet="Lezione" />
+            <End Role="LezioniStudenti" EntitySet="LezioniStudenti" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LezioniSt__Stude__5535A963" Association="RegistroModel.FK__LezioniSt__Stude__5535A963">
+            <End Role="Studenti" EntitySet="Studenti" />
+            <End Role="LezioniStudenti" EntitySet="LezioniStudenti" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Studenti">
+          <Key>
+            <PropertyRef Name="StudentiID" />
+          </Key>
+          <Property Name="StudentiID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DataCreazione" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="LezioniStudenti" Relationship="RegistroModel.FK__LezioniSt__Stude__5535A963" FromRole="Studenti" ToRole="LezioniStudenti" />
+        </EntityType>
+        <EntityType Name="Lezione">
+          <Key>
+            <PropertyRef Name="LezioneId" />
+          </Key>
+          <Property Name="LezioneId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="DataLezione" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="RegistroModel.FK__Lezione__UserId__5165187F" FromRole="Lezione" ToRole="User" />
+          <NavigationProperty Name="LezioniStudenti" Relationship="RegistroModel.FK__LezioniSt__Lezio__5441852A" FromRole="Lezione" ToRole="LezioniStudenti" />
+        </EntityType>
+        <EntityType Name="LezioniStudenti">
+          <Key>
+            <PropertyRef Name="LezioniStudentiId" />
+          </Key>
+          <Property Name="LezioniStudentiId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LezioneId" Type="Int32" Nullable="false" />
+          <Property Name="StudenteId" Type="Int32" Nullable="false" />
+          <Property Name="Presente" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Lezione" Relationship="RegistroModel.FK__LezioniSt__Lezio__5441852A" FromRole="LezioniStudenti" ToRole="Lezione" />
+          <NavigationProperty Name="Studenti" Relationship="RegistroModel.FK__LezioniSt__Stude__5535A963" FromRole="LezioniStudenti" ToRole="Studenti" />
+        </EntityType>
+        <Association Name="FK__Lezione__UserId__5165187F">
+          <End Type="RegistroModel.User" Role="User" Multiplicity="1" />
+          <End Type="RegistroModel.Lezione" Role="Lezione" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Lezione">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LezioniSt__Lezio__5441852A">
+          <End Type="RegistroModel.Lezione" Role="Lezione" Multiplicity="1" />
+          <End Type="RegistroModel.LezioniStudenti" Role="LezioniStudenti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lezione">
+              <PropertyRef Name="LezioneId" />
+            </Principal>
+            <Dependent Role="LezioniStudenti">
+              <PropertyRef Name="LezioneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LezioniSt__Stude__5535A963">
+          <End Type="RegistroModel.Studenti" Role="Studenti" Multiplicity="1" />
+          <End Type="RegistroModel.LezioniStudenti" Role="LezioniStudenti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Studenti">
+              <PropertyRef Name="StudentiID" />
+            </Principal>
+            <Dependent Role="LezioniStudenti">
+              <PropertyRef Name="StudenteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -47,6 +204,34 @@
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="DataCreazione" ColumnName="DataCreazione" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Studenti">
+            <EntityTypeMapping TypeName="RegistroModel.Studenti">
+              <MappingFragment StoreEntitySet="Studenti">
+                <ScalarProperty Name="DataCreazione" ColumnName="DataCreazione" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="StudentiID" ColumnName="StudentiID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lezione">
+            <EntityTypeMapping TypeName="RegistroModel.Lezione">
+              <MappingFragment StoreEntitySet="Lezione">
+                <ScalarProperty Name="DataLezione" ColumnName="DataLezione" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="LezioneId" ColumnName="LezioneId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LezioniStudenti">
+            <EntityTypeMapping TypeName="RegistroModel.LezioniStudenti">
+              <MappingFragment StoreEntitySet="LezioniStudenti">
+                <ScalarProperty Name="Presente" ColumnName="Presente" />
+                <ScalarProperty Name="StudenteId" ColumnName="StudenteId" />
+                <ScalarProperty Name="LezioneId" ColumnName="LezioneId" />
+                <ScalarProperty Name="LezioniStudentiId" ColumnName="LezioniStudentiId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

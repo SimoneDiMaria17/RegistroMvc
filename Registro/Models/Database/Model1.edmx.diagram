@@ -6,6 +6,12 @@
     <edmx:Diagrams>
       <Diagram DiagramId="b24487dc84a64066b0439c259765a101" Name="Diagram1">
         <EntityTypeShape EntityType="RegistroModel.User" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RegistroModel.Studenti" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="RegistroModel.Lezione" Width="1.5" PointX="3" PointY="3.75" />
+        <EntityTypeShape EntityType="RegistroModel.LezioniStudenti" Width="1.5" PointX="5.625" PointY="2.125" />
+        <AssociationConnector Association="RegistroModel.FK__Lezione__UserId__5165187F" />
+        <AssociationConnector Association="RegistroModel.FK__LezioniSt__Lezio__5441852A" />
+        <AssociationConnector Association="RegistroModel.FK__LezioniSt__Stude__5535A963" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -11,5 +11,33 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Studenti">
+      <EntityTypeMapping TypeName="RegistroModel.Studenti">
+        <MappingFragment StoreEntitySet="Studenti">
+          <ScalarProperty Name="DataCreazione" ColumnName="DataCreazione" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="StudentiID" ColumnName="StudentiID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Lezione">
+      <EntityTypeMapping TypeName="RegistroModel.Lezione">
+        <MappingFragment StoreEntitySet="Lezione">
+          <ScalarProperty Name="DataLezione" ColumnName="DataLezione" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="LezioneId" ColumnName="LezioneId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LezioniStudenti">
+      <EntityTypeMapping TypeName="RegistroModel.LezioniStudenti">
+        <MappingFragment StoreEntitySet="LezioniStudenti">
+          <ScalarProperty Name="Presente" ColumnName="Presente" />
+          <ScalarProperty Name="StudenteId" ColumnName="StudenteId" />
+          <ScalarProperty Name="LezioneId" ColumnName="LezioneId" />
+          <ScalarProperty Name="LezioniStudentiId" ColumnName="LezioniStudentiId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

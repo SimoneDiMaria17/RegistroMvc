@@ -1,5 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="RegistroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Lezione">
+    <Key>
+      <PropertyRef Name="LezioneId" />
+    </Key>
+    <Property Name="LezioneId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="DataLezione" Type="datetime2" Precision="3" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LezioniStudenti">
+    <Key>
+      <PropertyRef Name="LezioniStudentiId" />
+    </Key>
+    <Property Name="LezioniStudentiId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LezioneId" Type="int" Nullable="false" />
+    <Property Name="StudenteId" Type="int" Nullable="false" />
+    <Property Name="Presente" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Studenti">
+    <Key>
+      <PropertyRef Name="StudentiID" />
+    </Key>
+    <Property Name="StudentiID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DataCreazione" Type="datetime2" Precision="3" Nullable="false" />
+  </EntityType>
   <EntityType Name="User">
     <Key>
       <PropertyRef Name="UserId" />
@@ -9,7 +34,58 @@
     <Property Name="Password" Type="varchar" MaxLength="32" Nullable="false" />
     <Property Name="DataCreazione" Type="datetime2" Precision="3" Nullable="false" />
   </EntityType>
+  <Association Name="FK__Lezione__UserId__5165187F">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Lezione" Type="Self.Lezione" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Lezione">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__LezioniSt__Lezio__5441852A">
+    <End Role="Lezione" Type="Self.Lezione" Multiplicity="1" />
+    <End Role="LezioniStudenti" Type="Self.LezioniStudenti" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lezione">
+        <PropertyRef Name="LezioneId" />
+      </Principal>
+      <Dependent Role="LezioniStudenti">
+        <PropertyRef Name="LezioneId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__LezioniSt__Stude__5535A963">
+    <End Role="Studenti" Type="Self.Studenti" Multiplicity="1" />
+    <End Role="LezioniStudenti" Type="Self.LezioniStudenti" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Studenti">
+        <PropertyRef Name="StudentiID" />
+      </Principal>
+      <Dependent Role="LezioniStudenti">
+        <PropertyRef Name="StudenteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="RegistroModelStoreContainer">
+    <EntitySet Name="Lezione" EntityType="Self.Lezione" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LezioniStudenti" EntityType="Self.LezioniStudenti" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Studenti" EntityType="Self.Studenti" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Lezione__UserId__5165187F" Association="Self.FK__Lezione__UserId__5165187F">
+      <End Role="User" EntitySet="User" />
+      <End Role="Lezione" EntitySet="Lezione" />
+    </AssociationSet>
+    <AssociationSet Name="FK__LezioniSt__Lezio__5441852A" Association="Self.FK__LezioniSt__Lezio__5441852A">
+      <End Role="Lezione" EntitySet="Lezione" />
+      <End Role="LezioniStudenti" EntitySet="LezioniStudenti" />
+    </AssociationSet>
+    <AssociationSet Name="FK__LezioniSt__Stude__5535A963" Association="Self.FK__LezioniSt__Stude__5535A963">
+      <End Role="Studenti" EntitySet="Studenti" />
+      <End Role="LezioniStudenti" EntitySet="LezioniStudenti" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

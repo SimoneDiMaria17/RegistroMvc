@@ -8,8 +8,90 @@
     <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Password" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="DataCreazione" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Lezione" Relationship="RegistroModel.FK__Lezione__UserId__5165187F" FromRole="User" ToRole="Lezione" />
   </EntityType>
   <EntityContainer Name="RegistroEntities2" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="User" EntityType="Self.User" />
+    <EntitySet Name="Studenti" EntityType="RegistroModel.Studenti" />
+    <EntitySet Name="Lezione" EntityType="RegistroModel.Lezione" />
+    <EntitySet Name="LezioniStudenti" EntityType="RegistroModel.LezioniStudenti" />
+    <AssociationSet Name="FK__Lezione__UserId__5165187F" Association="RegistroModel.FK__Lezione__UserId__5165187F">
+      <End Role="User" EntitySet="User" />
+      <End Role="Lezione" EntitySet="Lezione" />
+    </AssociationSet>
+    <AssociationSet Name="FK__LezioniSt__Lezio__5441852A" Association="RegistroModel.FK__LezioniSt__Lezio__5441852A">
+      <End Role="Lezione" EntitySet="Lezione" />
+      <End Role="LezioniStudenti" EntitySet="LezioniStudenti" />
+    </AssociationSet>
+    <AssociationSet Name="FK__LezioniSt__Stude__5535A963" Association="RegistroModel.FK__LezioniSt__Stude__5535A963">
+      <End Role="Studenti" EntitySet="Studenti" />
+      <End Role="LezioniStudenti" EntitySet="LezioniStudenti" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Studenti">
+    <Key>
+      <PropertyRef Name="StudentiID" />
+    </Key>
+    <Property Name="StudentiID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DataCreazione" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="LezioniStudenti" Relationship="RegistroModel.FK__LezioniSt__Stude__5535A963" FromRole="Studenti" ToRole="LezioniStudenti" />
+  </EntityType>
+  <EntityType Name="Lezione">
+    <Key>
+      <PropertyRef Name="LezioneId" />
+    </Key>
+    <Property Name="LezioneId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="DataLezione" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="User" Relationship="RegistroModel.FK__Lezione__UserId__5165187F" FromRole="Lezione" ToRole="User" />
+    <NavigationProperty Name="LezioniStudenti" Relationship="RegistroModel.FK__LezioniSt__Lezio__5441852A" FromRole="Lezione" ToRole="LezioniStudenti" />
+  </EntityType>
+  <EntityType Name="LezioniStudenti">
+    <Key>
+      <PropertyRef Name="LezioniStudentiId" />
+    </Key>
+    <Property Name="LezioniStudentiId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LezioneId" Type="Int32" Nullable="false" />
+    <Property Name="StudenteId" Type="Int32" Nullable="false" />
+    <Property Name="Presente" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Lezione" Relationship="RegistroModel.FK__LezioniSt__Lezio__5441852A" FromRole="LezioniStudenti" ToRole="Lezione" />
+    <NavigationProperty Name="Studenti" Relationship="RegistroModel.FK__LezioniSt__Stude__5535A963" FromRole="LezioniStudenti" ToRole="Studenti" />
+  </EntityType>
+  <Association Name="FK__Lezione__UserId__5165187F">
+    <End Type="RegistroModel.User" Role="User" Multiplicity="1" />
+    <End Type="RegistroModel.Lezione" Role="Lezione" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Lezione">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__LezioniSt__Lezio__5441852A">
+    <End Type="RegistroModel.Lezione" Role="Lezione" Multiplicity="1" />
+    <End Type="RegistroModel.LezioniStudenti" Role="LezioniStudenti" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lezione">
+        <PropertyRef Name="LezioneId" />
+      </Principal>
+      <Dependent Role="LezioniStudenti">
+        <PropertyRef Name="LezioneId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__LezioniSt__Stude__5535A963">
+    <End Type="RegistroModel.Studenti" Role="Studenti" Multiplicity="1" />
+    <End Type="RegistroModel.LezioniStudenti" Role="LezioniStudenti" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Studenti">
+        <PropertyRef Name="StudentiID" />
+      </Principal>
+      <Dependent Role="LezioniStudenti">
+        <PropertyRef Name="StudenteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

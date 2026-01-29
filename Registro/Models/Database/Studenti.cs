@@ -12,20 +12,19 @@ namespace Registro.Models.Database
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class Studenti
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public Studenti()
         {
-            this.Lezione = new HashSet<Lezione>();
+            this.LezioniStudenti = new HashSet<LezioniStudenti>();
         }
     
-        public int UserId { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public int StudentiID { get; set; }
+        public string Nome { get; set; }
         public System.DateTime DataCreazione { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Lezione> Lezione { get; set; }
+        public virtual ICollection<LezioniStudenti> LezioniStudenti { get; set; }
     }
 }

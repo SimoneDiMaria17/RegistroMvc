@@ -19,21 +19,23 @@
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Informazioni", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contatto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@using (Html.BeginForm("Logout", "Home", FormMethod.Post))
+                            {
+                                <button type="submit" class="btn btn-danger">Logout</button>
+                            }</li>
+                    }
+                    </ul>
             </div>
         </div>
     </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Applicazione ASP.NET</p>
-        </footer>
-    </div>
+    
+<div class="container mt-4">
+    @RenderBody()
+</div>
 
-    @Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

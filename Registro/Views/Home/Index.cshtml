@@ -1,27 +1,24 @@
-﻿@using System.Web.UI.HtmlControls
-@model Registro.Models.UserLoginModel
+﻿@model Registro.Models.UserLoginModel
 
-<div class="d-flex  align-items-center justify-content-center">
+<div class="d-flex align-items-center justify-content-center"  style="height: 100vh;">
     <div 
-        class="d-flex flex-column align-items-center justify-content-center  w-50 h-75 rounded-3 text-white"
+        class="d-flex flex-column align-items-center justify-content-center w-25 h-75 rounded-3 text-white"
         style="background-color: #332d2d;">
         @using (Html.BeginForm("Index", "Home", FormMethod.Post))
         {
             <div class="form-outline form-white mb-4">
-                @Html.LabelFor(user=>user.Username)
-                @Html.TextBoxFor(user=>user.Username,new{@class ="form-control form-control-lg"})
-                @Html.ValidationMessageFor(user=>user.Username,"",new{@class = "text-danger"} )
+                @Html.LabelFor(user => user.Username)
+                @Html.TextBoxFor(user => user.Username, new { @class = "form-control form-control-lg" })
+                @Html.ValidationMessageFor(user => user.Username, "", new { @class = "text-danger" })
             </div>
             <div>
-                @Html.LabelFor(user=>user.Password)
-                @Html.TextBoxFor(user=>user.Password,new{@class ="form-control form-control-lg"})
-                @Html.ValidationMessageFor(user=>user.Password,"",new{@class = "text-danger"} )
+                @Html.LabelFor(user => user.Password)
+                @Html.TextBoxFor(user => user.Password, new { @class = "form-control form-control-lg" })
+                @Html.ValidationMessageFor(user => user.Password, "", new { @class = "text-danger" })
             </div>
-            <div type="submit" class="d-flex flex-column align-items-center justify-content-center"> <button class="mt-3 btn btn-primary">Login</button></div>
+            <div class="d-flex flex-column align-items-center justify-content-center">
+                <button type="submit" class="mt-3 btn btn-primary">Login</button>
+            </div>
         }
     </div>
 </div>
-@if (User.Identity.IsAuthenticated)
-{
-    <div>autenticato</div>
-}

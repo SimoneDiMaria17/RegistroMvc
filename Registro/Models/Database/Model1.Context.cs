@@ -26,5 +26,8 @@ namespace Registro.Models.Database
         }
     
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Studenti> Studenti { get; set; }
+        public virtual DbSet<Lezione> Lezione { get; set; }
+        public virtual DbSet<LezioniStudenti> LezioniStudenti { get; set; }
     }
 }
